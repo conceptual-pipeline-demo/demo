@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: demo_db
+    restart: always
+    environment:
+      POSTGRES_USEER: demo
+      POSTGRES_PASSWORD: demo
+    ports:
+      - "5432:5432"
+#    volumes:
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

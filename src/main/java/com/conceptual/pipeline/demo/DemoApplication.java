@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.conceptual.pipeline.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

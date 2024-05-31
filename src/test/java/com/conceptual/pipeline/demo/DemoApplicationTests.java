@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.conceptual.pipeline.demo;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

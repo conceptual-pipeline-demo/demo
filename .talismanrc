@@ -1,0 +1,7 @@
+fileignoreconfig:
+- filename: infra/aws-cdk/yarn.lock
+  checksum: d0d1e7092cb8860a78f7ccfb7f94bb9b5bc751d069e6365d0f0a72015ee1c057
+- filename: infra/bootstrap/pipeline.yaml
+  checksum: 27e0bbdd66c1e34bebe2757c93491fc25cdf4a44621157b6100fcdb59c5a9dd2
+threshold: medium
+version: "1.0"

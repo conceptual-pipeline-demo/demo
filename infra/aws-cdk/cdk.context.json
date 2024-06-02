@@ -1,0 +1,32 @@
+{
+  "accounts": {
+    "160071257600": {
+      "regions": {
+        "ap-southeast-2": {
+          "local-prefix": "conceptual-pipeline",
+          "vpc-cidr": "10.1.0.0/16",
+          "alb": {
+            "x-origin-key-secret-arn": "arn:aws:secretsmanager:ap-southeast-2:160071257600:secret:prod/alb/shadow/headers/x-origin-key-J5yTyK",
+            "certificate": {
+              "subject-alternative-names": [
+              ],
+              "domain-name": ""
+            }
+          },
+          "conceptual-pipeline-aurora": {
+            "reader-instance-type": "db.t4g.medium",
+            "writer-instance-type": "db.t4g.medium",
+            "preferred-backup-window": "04:25-04:55",
+            "preferred-maintenance-window": "Sun:1:30-Sun:2:00"
+          }
+        }
+      },
+      "environment": "prod"
+    }
+  },
+  "availability-zones:account=160071257600:region=ap-southeast-2": [
+    "ap-southeast-2a",
+    "ap-southeast-2b",
+    "ap-southeast-2c"
+  ]
+}

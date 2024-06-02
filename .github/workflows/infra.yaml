@@ -1,0 +1,55 @@
+name: Infra Provision
+
+run-name: ${{ github.actor }} is running infra provision 🚀
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'infra/aws-cdk/**'
+      - '.github/workflows/infra.yaml'
+env:
+  AWS_REGION: ap-southeast-2
+  AWS_ROLE_ARN: arn:aws:iam::160071257600:role/conceptual-pipeline-deployment
+
+permissions:
+  id-token: write # Allow connections to AWS
+  contents: read # Allow access to repository contents
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          role-session-name: infra-${{ github.run_id }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: cdk version
+        working-directory: infra/aws-cdk
+        run: |
+          echo "--------------"
+          echo "AWS CDK Version:"
+          yarn cdk --version
+          echo "--------------"
+
+      - name: cdk diff
+        working-directory: infra/aws-cdk
+        run: yarn cdk diff
+      - name: cdk deploy
+        working-directory: infra/aws-cdk
+        run: yarn cdk deploy --all --verbose --require-approval never

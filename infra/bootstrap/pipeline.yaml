@@ -32,7 +32,8 @@ Resources:
             Condition:
               StringEquals:
                 'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com'
-                "token.actions.githubusercontent.com:sub": "repo:haopeh/conceptual-pipeline-demo:ref:refs/heads/master"
+              StringLike:
+                "token.actions.githubusercontent.com:sub": "repo:haopeh/conceptual-pipeline-demo:*"
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/PowerUserAccess
 #        - !Ref IAMDeploymentPolicy

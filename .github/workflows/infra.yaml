@@ -27,9 +27,10 @@ jobs:
         with:
           node-version: "20"
           cache: "yarn"
-          cache-dependency-path: "yarn.lock"
+          cache-dependency-path: "infra/aws-cdk/yarn.lock"
 
       - name: Install dependencies
+        working-directory: infra/aws-cdk
         run: yarn install --frozen-lockfile
 
       - name: Configure AWS Creds

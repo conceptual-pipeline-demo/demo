@@ -10,8 +10,7 @@ import {
   KubernetesVersion
 } from "aws-cdk-lib/aws-eks";
 import {InstanceClass, InstanceSize, InstanceType, SubnetType, Vpc} from "aws-cdk-lib/aws-ec2";
-import {Role} from "aws-cdk-lib/aws-iam";
-import {AccountRootPrincipal} from "aws-cdk-lib/aws-iam/lib/principals";
+import {AccountRootPrincipal, Role} from "aws-cdk-lib/aws-iam";
 
 interface EksStackProps extends StrictStackProps {
   vpc: Vpc;

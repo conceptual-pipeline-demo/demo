@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:12.12:///
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    show-sql: true
+    generate-ddl: true

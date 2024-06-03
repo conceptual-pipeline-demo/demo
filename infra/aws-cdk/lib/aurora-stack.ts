@@ -1,6 +1,6 @@
 import {Duration, Stack} from 'aws-cdk-lib';
 import {InstanceType, Peer, Port, SecurityGroup, SubnetType, Vpc} from 'aws-cdk-lib/aws-ec2';
-import {Key} from 'aws-cdk-lib/aws-kms';
+import {IKey} from 'aws-cdk-lib/aws-kms';
 import {
   AuroraPostgresEngineVersion,
   ClusterInstance,
@@ -16,6 +16,7 @@ import {Construct} from 'constructs';
 import {ContextResolver} from './environments';
 import {StrictStackProps} from './strict-types';
 import {TagsBuilder} from './tags-builder';
+import {ConventionalCmk} from "./constructs/conventional-cmk";
 
 interface AuroraStackProps extends StrictStackProps {
   vpc: Vpc;
@@ -30,12 +31,12 @@ export class AuroraStack extends Stack {
     super(scope, id, props);
 
     const context = new ContextResolver(this.node, props.env);
-    const instanceId = `${context.localPrefix}-shadow-instance`;
+    const instanceId = `${context.localPrefix}-instance`;
 
-    const cmk = this.createKmsKey(context);
-    const securityGroup = this.createSecurityGroup(`${context.localPrefix}-shadow-db-sg`, props);
+    const cmk = this.createKmsKey(context, props);
+    const securityGroup = this.createSecurityGroup(`${context.localPrefix}-db-sg`, props);
 
-    this._databaseCluster = this.createDatabase(context, instanceId, props, cmk, securityGroup);
+    this._databaseCluster = this.createDatabase(context, instanceId, props, cmk.key, securityGroup);
 
     TagsBuilder.of(this, props.env);
   }
@@ -47,17 +48,17 @@ export class AuroraStack extends Stack {
   private createDatabase(context: ContextResolver,
                          instanceId: string,
                          props: AuroraStackProps,
-                         cmk: Key,
+                         cmk: IKey,
                          securityGroup: SecurityGroup) {
     const engine = DatabaseClusterEngine.auroraPostgres({
       version: AuroraPostgresEngineVersion.VER_14_6,
     });
     const parameterGroup = this.createParameterGroup(`${instanceId}-pg`, engine);
 
-    const clusterId = `${context.localPrefix}-shadow-cluster`;
+    const clusterId = `${context.localPrefix}-cluster`;
     return new DatabaseCluster(this, clusterId, {
       engine: engine,
-      deletionProtection: true,
+      deletionProtection: false,
       parameterGroup: parameterGroup,
       writer: ClusterInstance.provisioned(instanceId, {
         instanceIdentifier: instanceId,
@@ -66,13 +67,6 @@ export class AuroraStack extends Stack {
         autoMinorVersionUpgrade: false,
         enablePerformanceInsights: true,
       }),
-      readers: [ClusterInstance.provisioned(`${instanceId}-reader`, {
-        instanceIdentifier: `${instanceId}-reader`,
-        publiclyAccessible: false,
-        instanceType: new InstanceType(context.auroraDb.readerInstanceType),
-        autoMinorVersionUpgrade: false,
-        enablePerformanceInsights: true,
-      })],
       monitoringInterval: Duration.seconds(60),
       vpcSubnets: {
         subnetType: SubnetType.PRIVATE_ISOLATED,
@@ -90,7 +84,7 @@ export class AuroraStack extends Stack {
       preferredMaintenanceWindow: context.auroraDb.maintenanceWindow,
       securityGroups: [securityGroup],
       credentials: Credentials.fromGeneratedSecret(context.auroraDb.username, {
-        secretName: `${context.localPrefix}-shadow-aurora-auto-generated-credentials`,
+        secretName: `${context.localPrefix}-aurora-auto-generated-credentials`,
       }),
       defaultDatabaseName: context.auroraDb.defaultDatabaseName,
     });
@@ -99,7 +93,7 @@ export class AuroraStack extends Stack {
   private createSecurityGroup(securityGroupName: string, props: AuroraStackProps): SecurityGroup {
     const securityGroup = new SecurityGroup(this, securityGroupName, {
       vpc: props.vpc,
-      description: "Security Group for shadow Aurora",
+      description: "Security Group for Aurora",
       securityGroupName: securityGroupName,
       allowAllOutbound: false,
     });
@@ -110,10 +104,10 @@ export class AuroraStack extends Stack {
     return securityGroup;
   }
 
-  private createKmsKey(context: ContextResolver) {
-    return new Key(this, `${context.localPrefix}-rds-key`, {
-      alias: `${context.localPrefix}-rds-key`,
-      enableKeyRotation: true,
+  private createKmsKey(context: ContextResolver, props: AuroraStackProps) {
+    return new ConventionalCmk(this, `${context.localPrefix}-rds-key`, {
+      env: props.env,
+      keyName: "rds-key",
     });
   }
 

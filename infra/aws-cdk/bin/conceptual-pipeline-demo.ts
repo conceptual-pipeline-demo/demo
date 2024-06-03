@@ -7,11 +7,11 @@ import {AuroraStack} from "../lib/aurora-stack";
 
 const app = new App();
 
-const vpcStack = new VpcStack(app, 'VpcStack', {
+const vpcStack = new VpcStack(app, 'ConceptualPipelineVpcStack', {
   env: defaultEnv,
 });
 
-new AuroraStack(app, 'ShadowAuroraStack', {
+new AuroraStack(app, 'ConceptualPipelineAuroraStack', {
   env: defaultEnv,
   vpc: vpcStack.vpc,
   allowIngressFromSecurityGroupIds: [],

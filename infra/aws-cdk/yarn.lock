@@ -25,6 +25,11 @@
   resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v6/-/asset-node-proxy-agent-v6-2.0.3.tgz#9b5d213b5ce5ad4461f6a4720195ff8de72e6523"
   integrity sha512-twhuEG+JPOYCYPx/xy5uH2+VUsIEhPTzDY0F1KuB+ocjWWB/KEDiOVL19nHvbPCB6fhWnkykXEMJ4HHcKvjtvg==
 
+"@aws-cdk/lambda-layer-kubectl-v29@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/lambda-layer-kubectl-v29/-/lambda-layer-kubectl-v29-2.0.0.tgz#1c078fffa2c701c691aeb3e599e91cd3c1017e74"
+  integrity sha512-X6RKZPcPGkYSp9/AhiNtEL7Vz2I77qCdbr5XGtqFeIyw/620Qo2ZIRFr2AjWfGEj81gvcwUbVW5lZ6+EqqyqlA==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.24.6":
   version "7.24.6"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.24.6.tgz#ab88da19344445c3d8889af2216606d3329f3ef2"

@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: helm deploy
-        uses: ./.github/actions/helm_deploy
+        uses: ./.github/actions/helm-deploy
         with:
           namespace: dev
           aws-role-arn: ${{ env.AWS_ROLE_ARN }}

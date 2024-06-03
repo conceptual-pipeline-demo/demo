@@ -38,7 +38,7 @@ jobs:
         with:
           working-dir: ./
       - name: Build docker image
-        run: echo "Example, build the image here"
+        run: docker build . --file Dockerfile --tag pipeline-demo:$(date +%s)
         shell: bash
       - name: Upload test coverage reports
         uses: codecov/codecov-action@v4

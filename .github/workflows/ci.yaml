@@ -45,7 +45,7 @@ jobs:
         with:
           fail_ci_if_error: true
           flags: unit_tests
-          files: ./build/reports/jacoco/test/html/index.html
+          directory: ./build/reports/jacoco/test/
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 

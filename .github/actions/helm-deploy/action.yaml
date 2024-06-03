@@ -21,7 +21,7 @@ inputs:
   cluster:
     description: 'k8s cluster'
     required: false
-    default: conceptual-pipeline-demo
+    default: conceptual-pipeline
 
 runs:
   using: "composite"

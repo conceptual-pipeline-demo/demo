@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.0.3'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.avast.gradle.docker-compose' version '0.16.11'
+    id("org.owasp.dependencycheck") version "9.0.7"
 }
 
 group = 'com.conceptual.pipeline'
@@ -53,4 +54,10 @@ tasks.named('test') {
 dockerCompose {
     useComposeFiles = ["${projectDir}/docker/docker-compose.yml"]
     isRequiredBy(bootRun)
+}
+
+dependencyCheck {
+    formats = ['HTML', 'JSON']
+    outputDirectory = "${buildDir}/reports/dependency-check"
+    scanConfigurations = ['runtimeClasspath', 'testRuntimeClasspath']
 }

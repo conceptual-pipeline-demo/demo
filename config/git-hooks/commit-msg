@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+RESET='\033[0m'
+
+#eg. [TECH]
+card_name_regex="(\[TECH\])"
+
+person_name_regex="([A-Z][a-z]+.)+"
+
+#eg [Xxx] or [Xxx & Yyy]
+author_name_regex="\[(${person_name_regex})(\s{0,1}(&|&&)\s{0,1}${person_name_regex})?\]"
+
+
+work_type_regex="(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)"
+# Regex for conventional commits
+conventional_commits_regex="^${card_name_regex}${author_name_regex}\s{0,1}${work_type_regex}(\(([a-z \-]+)\))?\!?:\ .+$"
+
+# Regex used to exclude message commit that match this regex
+exclude=".^"
+
+# Get the commit message (the parameter we're given is just the path to the
+# temporary file which holds the message).
+commit_message=$(cat "$1")
+echo $commit_message
+echo $conventional_commits_regex
+
+# Check if the message math the exclude regex, if so, all good baby.
+if [[ "$commit_message" =~ $exclude ]]; then
+    echo -e "${GREEN}Commit message meets Conventional Commit standards...${RESET}"
+    exit 0
+fi
+
+# Check the message, if we match, all good baby.
+if echo "$commit_message" | grep -E "$conventional_commits_regex" ; then
+   echo -e "${GREEN}Commit message meets Conventional Commit standards...${RESET}"
+   exit 0
+fi
+
+# Uh-oh, this is not a conventional commit, show an example and link to the spec.
+echo -e "${RED}The commit message does not meet the Conventional Commit standard, please check again...${RESET}"
+ echo -e "${YELLOW}Exmaple: [TECH][Alan Turing] feat: the code changes the world.${RESET}"
+ echo -e "${YELLOW}Or for pairs: [TECH][Pair DevA & Pair DevB] feat: the code changes the world.${RESET}"
+exit 1

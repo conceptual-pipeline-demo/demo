@@ -17,6 +17,14 @@ on:
 
   workflow_dispatch:
 
+env:
+  AWS_REGION: ap-southeast-2
+  AWS_ROLE_ARN: arn:aws:iam::160071257600:role/conceptual-pipeline-deployment
+
+permissions:
+  id-token: write # Allow connections to AWS
+  contents: read # Allow access to repository contents
+
 jobs:
   build_artifacts:
     name: Build artifacts
@@ -49,3 +57,15 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+  deploy-dev:
+    name: Deploy to dev
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: helm deploy
+        uses: ./.github/actions/helm_deploy
+        with:
+          namespace: dev
+          aws-role-arn: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}

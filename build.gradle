@@ -6,6 +6,7 @@ plugins {
     id 'org.owasp.dependencycheck' version "9.0.7"
     id 'jacoco'
     id 'com.github.spotbugs' version '6.0.10'
+    id 'checkstyle'
 }
 
 group = 'com.conceptual.pipeline'
@@ -38,7 +39,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured'
-    testImplementation'io.rest-assured:spring-mock-mvc'
+    testImplementation 'io.rest-assured:spring-mock-mvc'
     testImplementation 'org.testcontainers:postgresql'
 }
 
@@ -76,12 +77,14 @@ dockerCompose {
     isRequiredBy(bootRun)
 }
 
+// owasp dependency check
 dependencyCheck {
     formats = ['HTML', 'JSON']
     outputDirectory = "${buildDir}/reports/dependency-check"
     scanConfigurations = ['runtimeClasspath', 'testRuntimeClasspath']
 }
 
+// spotbugs vulnerability check
 spotbugsMain {
     reports {
         html {
@@ -89,5 +92,18 @@ spotbugsMain {
             outputLocation = file("${buildDir}/reports/spotbugs/spotbugs.html")
             stylesheet = 'fancy-hist.xsl'
         }
+    }
+}
+
+// checkstyle code style check
+checkstyle {
+    toolVersion = "10.17.0"
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.required = false
+        html.required = true
     }
 }

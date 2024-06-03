@@ -1,12 +1,14 @@
 package com.conceptual.pipeline.demo.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 
 import com.conceptual.pipeline.demo.controller.response.ClientInfoResponse;
 import com.conceptual.pipeline.demo.repository.ClientRepository;
 import com.conceptual.pipeline.demo.repository.entity.ClientEntity;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

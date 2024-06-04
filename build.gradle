@@ -107,3 +107,10 @@ tasks.withType(Checkstyle) {
         html.required = true
     }
 }
+
+tasks.check {
+    dependsOn checkstyleMain
+    dependsOn checkstyleTest
+    dependsOn spotbugsMain
+    dependsOn jacocoTestReport
+}

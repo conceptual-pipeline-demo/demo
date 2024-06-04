@@ -1,5 +1,11 @@
 #!/bin/sh
-./gradlew test
+# main code style check
+./gradlew checkstyleMain
+# test code style check
+./gradlew checkstyleTest
+# vulnerability check
+./gradlew spotbugsMain
+
 
 if [ $? -ne 0 ]; then
     echo "|-------------------------------------------------------------|"

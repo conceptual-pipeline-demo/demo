@@ -77,6 +77,15 @@ jobs:
       - build_artifacts
     steps:
       - uses: actions/checkout@v4
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          role-session-name: infra-${{ github.run_id }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
       - name: Get Latest Image tag
         id: get_image_tag
         run: |

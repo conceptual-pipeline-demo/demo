@@ -57,7 +57,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Build and push docker image to Amazon ECR
         run: |
-          docker build . --file Dockerfile --tag pipeline-demo:${{ github.sha }} .
+          docker build . --file Dockerfile --tag pipeline-demo:${{ github.sha }}
           docker tag pipeline-demo:${{ github.sha }} ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/conceptual-pipeline-conceptual-pipeline-demo-repo:${{ github.sha }}
           docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/conceptual-pipeline-conceptual-pipeline-demo-repo:${{ github.sha }}
         shell: bash

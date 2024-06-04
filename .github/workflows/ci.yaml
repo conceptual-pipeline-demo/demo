@@ -20,6 +20,7 @@ on:
 env:
   AWS_REGION: ap-southeast-2
   AWS_ROLE_ARN: arn:aws:iam::160071257600:role/conceptual-pipeline-deployment
+  AWS_ACCOUNT_ID: 160071257600
 
 permissions:
   id-token: write # Allow connections to AWS
@@ -45,8 +46,20 @@ jobs:
         uses: ./.github/actions/gradle_build
         with:
           working-dir: ./
-      - name: Build docker image
-        run: docker build . --file Dockerfile --tag pipeline-demo:$(date +%s)
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          role-session-name: infra-${{ github.run_id }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build and push docker image to Amazon ECR
+        run: |
+          docker build . --file Dockerfile --tag pipeline-demo:${{ github.sha }} .
+          docker tag pipeline-demo:${{ github.sha }} ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/conceptual-pipeline-conceptual-pipeline-demo-repo:${{ github.sha }}
+          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/conceptual-pipeline-conceptual-pipeline-demo-repo:${{ github.sha }}
         shell: bash
       - name: Upload test coverage reports
         uses: codecov/codecov-action@v4

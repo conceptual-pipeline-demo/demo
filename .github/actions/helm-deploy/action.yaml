@@ -28,6 +28,12 @@ inputs:
   image-tag:
     description: 'image tag'
     required: true
+  db-username:
+    description: 'db username'
+    required: true
+  db-password:
+    description: 'db password'
+    required: true
 
 runs:
   using: "composite"
@@ -45,12 +51,14 @@ runs:
 
     - name: Run helm deploy
       run: |
-        echo "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
-        echo "${{ secrets.SPRING_DATASOURCE_USERNAME }}"
+        echo "${{ inputs.db-username }}"
+        echo "${{ inputs.db-password }}"
         helm upgrade demo . \
             -f "./values-${{ inputs.namespace }}.yaml" \
             --set-string image.repository="${{ inputs.image-repo }}" \
             --set-string image.tag="${{ inputs.image-tag }}" \
+            --set-string db.username="${{ inputs.db-username }}" \
+            --set-string db.password="${{ inputs.db-password }}" \
             --debug \
             -i \
             --atomic \

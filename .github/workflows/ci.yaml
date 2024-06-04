@@ -102,3 +102,5 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           image-repo: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}
           image-tag: ${{ steps.get_image_tag.outputs.image_tag }}
+          db-username: ${{secrets.SPRING_DATASOURCE_USERNAME}}
+          db-password: ${{secrets.SPRING_DATASOURCE_PASSWORD}}

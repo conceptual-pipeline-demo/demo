@@ -70,3 +70,5 @@ jobs:
           namespace: dev
           aws-role-arn: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
+          image-repo: nginx
+          image-tag: latest

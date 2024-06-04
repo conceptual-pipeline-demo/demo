@@ -26,4 +26,9 @@ new EcrStack(app, 'ConceptualPipelineEcrStack', {
 new EksStack(app, 'ConceptualPipelineEksStack', {
   env: defaultEnv,
   vpc: vpcStack.vpc,
+  masterRoles: {
+    'poweruser-role': "arn:aws:iam::160071257600:role/PowerUserPlusRole",
+    'sso-poweruser-role': "arn:aws:iam::160071257600:role/AWSReservedSSO_PowerUserPlusRole_db88d920cf78a35f",
+    'pipeline': "arn:aws:iam::160071257600:role/conceptual-pipeline-deployment",
+  },
 });

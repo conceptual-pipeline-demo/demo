@@ -22,6 +22,12 @@ inputs:
     description: 'k8s cluster'
     required: false
     default: conceptual-pipeline
+  image-repo:
+    description: 'image repository'
+    required: true
+  image-tag:
+    description: 'image tag'
+    required: true
 
 runs:
   using: "composite"
@@ -41,6 +47,8 @@ runs:
       run: |
         helm upgrade demo . \
             -f "./values-${{ inputs.namespace }}.yaml" \
+            --set-string image.repository="${{ inputs.image-repo }}" \
+            --set-string image.tag="${{ inputs.image-tag }}" \
             --debug \
             -i \
             --atomic \

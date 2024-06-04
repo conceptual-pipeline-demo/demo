@@ -8,8 +8,13 @@ import {InstanceClass, InstanceSize, InstanceType, SubnetType, Vpc} from "aws-cd
 import {AccountRootPrincipal, Role} from "aws-cdk-lib/aws-iam";
 import {KubectlV29Layer} from "@aws-cdk/lambda-layer-kubectl-v29";
 
+interface MasterRoleProps {
+  readonly [name: string]: string;
+}
+
 interface EksStackProps extends StrictStackProps {
-  vpc: Vpc;
+  readonly vpc: Vpc;
+  readonly masterRoles: MasterRoleProps;
 }
 
 export class EksStack extends Stack {
@@ -91,9 +96,9 @@ export class EksStack extends Stack {
       clusterName: context.localPrefix,
       kubectlLayer: kubectlV29Layer,
     });
-    cluster.awsAuth.addMastersRole(Role.fromRoleArn(this, 'poweruser-role', "arn:aws:iam::160071257600:role/PowerUserPlusRole"));
-    cluster.awsAuth.addMastersRole(Role.fromRoleArn(this, 'sso-poweruser-role', "arn:aws:iam::160071257600:role/AWSReservedSSO_PowerUserPlusRole_db88d920cf78a35f"));
-    cluster.awsAuth.addMastersRole(Role.fromRoleArn(this, 'pipeline', "arn:aws:iam::160071257600:role/conceptual-pipeline-deployment"));
+    for (const roleName in props.masterRoles) {
+      cluster.awsAuth.addMastersRole(Role.fromRoleArn(this, roleName, props.masterRoles[roleName]));
+    }
     return cluster;
   }
 }

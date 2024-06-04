@@ -45,12 +45,14 @@ runs:
 
     - name: Run helm deploy
       run: |
+        echo "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
+        echo "${{ secrets.SPRING_DATASOURCE_USERNAME }}"
         helm upgrade demo . \
             -f "./values-${{ inputs.namespace }}.yaml" \
             --set-string image.repository="${{ inputs.image-repo }}" \
             --set-string image.tag="${{ inputs.image-tag }}" \
-            --set-string db.username="${{ secrets.SPRING_DATASOURCE_PASSWORD }}" \
-            --set-string db.password="${{ secrets.SPRING_DATASOURCE_USERNAME }}" \
+#            --set-string db.username="${{ secrets.SPRING_DATASOURCE_PASSWORD }}" \
+#            --set-string db.password="${{ secrets.SPRING_DATASOURCE_USERNAME }}" \
             --debug \
             -i \
             --atomic \

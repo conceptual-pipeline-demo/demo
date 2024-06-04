@@ -1,9 +1,9 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.0.3'
+    id 'org.springframework.boot' version '3.3.0'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.avast.gradle.docker-compose' version '0.16.11'
-    id 'org.owasp.dependencycheck' version "9.0.7"
+    id 'org.owasp.dependencycheck' version "9.2.0"
     id 'jacoco'
     id 'com.github.spotbugs' version '6.0.10'
     id 'checkstyle'
@@ -32,13 +32,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
     runtimeOnly 'org.postgresql:postgresql'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.rest-assured:rest-assured'
     testImplementation 'io.rest-assured:spring-mock-mvc'
     testImplementation 'org.testcontainers:postgresql'
 }
@@ -66,7 +64,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.5
+                minimum = 0.8
             }
         }
     }
@@ -82,6 +80,7 @@ dependencyCheck {
     formats = ['HTML', 'JSON']
     outputDirectory = "${buildDir}/reports/dependency-check"
     scanConfigurations = ['runtimeClasspath', 'testRuntimeClasspath']
+    failBuildOnCVSS = 0
 }
 
 // spotbugs vulnerability check
@@ -112,5 +111,6 @@ tasks.check {
     dependsOn checkstyleMain
     dependsOn checkstyleTest
     dependsOn spotbugsMain
+    dependsOn dependencyCheckAnalyze
     dependsOn jacocoTestReport
 }

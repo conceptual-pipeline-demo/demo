@@ -73,7 +73,7 @@ jacocoTestCoverageVerification {
 }
 
 dockerCompose {
-    useComposeFiles = ["${projectDir}/docker/docker-compose.yml"]
+    useComposeFiles = ["${projectDir}/docker/docker-compose-postgres.yml"]
     isRequiredBy(bootRun)
 }
 

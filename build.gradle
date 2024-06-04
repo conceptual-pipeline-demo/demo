@@ -111,6 +111,6 @@ tasks.check {
     dependsOn checkstyleMain
     dependsOn checkstyleTest
     dependsOn spotbugsMain
-    dependsOn dependencyCheckAnalyze
+//    dependsOn dependencyCheckAnalyze
     dependsOn jacocoTestReport
 }

@@ -56,9 +56,11 @@ jobs:
 
       - name: Build and push docker image to Amazon ECR
         run: |
-          DOCKER_BUILDKIT=1 docker buildx build . --file Dockerfile --platform linux/amd64,linux/arm64 --tag pipeline-demo:${{ github.sha }}
-          docker tag pipeline-demo:${{ github.sha }} ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}:${{ github.sha }}
-          docker push --platform linux/amd64,linux/arm64 ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}:${{ github.sha }}
+          DOCKER_BUILDKIT=1 docker buildx build . \
+              --file Dockerfile \
+              --platform linux/amd64,linux/arm64 \
+              --tag ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}:${{ github.sha }} \
+              --push
         shell: bash
       - name: Upload test coverage reports
         uses: codecov/codecov-action@v4

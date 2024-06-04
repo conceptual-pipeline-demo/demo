@@ -77,11 +77,17 @@ jobs:
       - build_artifacts
     steps:
       - uses: actions/checkout@v4
+      - name: Get Latest Image tag
+        id: get_image_tag
+        run: |
+          TAG=$(aws ecr describe-images --repository-name conceptual-pipeline-conceptual-pipeline-demo-repo --region ${{ env.AWS_REGION }} --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' --output text)
+          echo "Latest image tag: $TAG"
+          echo "::set-output name=image_tag::$TAG"
       - name: helm deploy
         uses: ./.github/actions/helm-deploy
         with:
           namespace: dev
           aws-role-arn: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-          image-repo: nginx
-          image-tag: latest
+          image-repo: conceptual-pipeline-conceptual-pipeline-demo-repo
+          image-tag: ${{ steps.get_image_tag.outputs.image_tag }}

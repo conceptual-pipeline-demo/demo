@@ -21,6 +21,7 @@ env:
   AWS_REGION: ap-southeast-2
   AWS_ROLE_ARN: arn:aws:iam::160071257600:role/conceptual-pipeline-deployment
   AWS_ACCOUNT_ID: 160071257600
+  AWS_ECR_REPO: conceptual-pipeline-conceptual-pipeline-demo-repo
 
 permissions:
   id-token: write # Allow connections to AWS
@@ -58,8 +59,8 @@ jobs:
       - name: Build and push docker image to Amazon ECR
         run: |
           docker build . --file Dockerfile --tag pipeline-demo:${{ github.sha }}
-          docker tag pipeline-demo:${{ github.sha }} ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/conceptual-pipeline-conceptual-pipeline-demo-repo:${{ github.sha }}
-          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/conceptual-pipeline-conceptual-pipeline-demo-repo:${{ github.sha }}
+          docker tag pipeline-demo:${{ github.sha }} ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}:${{ github.sha }}
+          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}:${{ github.sha }}
         shell: bash
       - name: Upload test coverage reports
         uses: codecov/codecov-action@v4
@@ -89,7 +90,7 @@ jobs:
       - name: Get Latest Image tag
         id: get_image_tag
         run: |
-          TAG=$(aws ecr describe-images --repository-name conceptual-pipeline-conceptual-pipeline-demo-repo --region ${{ env.AWS_REGION }} --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' --output text)
+          TAG=$(aws ecr describe-images --repository-name ${{env.AWS_ECR_REPO}} --region ${{ env.AWS_REGION }} --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' --output text)
           echo "Latest image tag: $TAG"
           echo "::set-output name=image_tag::$TAG"
       - name: helm deploy
@@ -98,5 +99,5 @@ jobs:
           namespace: dev
           aws-role-arn: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-          image-repo: conceptual-pipeline-conceptual-pipeline-demo-repo
+          image-repo: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}
           image-tag: ${{ steps.get_image_tag.outputs.image_tag }}

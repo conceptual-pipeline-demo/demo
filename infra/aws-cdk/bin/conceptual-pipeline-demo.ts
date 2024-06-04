@@ -13,7 +13,7 @@ const vpcStack = new VpcStack(app, 'ConceptualPipelineVpcStack', {
   env: defaultEnv,
 });
 
-new AuroraStack(app, 'ConceptualPipelineAuroraStack', {
+const auroraStack = new AuroraStack(app, 'ConceptualPipelineAuroraStack', {
   env: defaultEnv,
   vpc: vpcStack.vpc,
   allowIngressFromSecurityGroupIds: [],
@@ -26,6 +26,7 @@ new EcrStack(app, 'ConceptualPipelineEcrStack', {
 new EksStack(app, 'ConceptualPipelineEksStack', {
   env: defaultEnv,
   vpc: vpcStack.vpc,
+  dbSecurityGroup: auroraStack.securityGroup,
   masterRoles: {
     'poweruser-role': "arn:aws:iam::160071257600:role/PowerUserPlusRole",
     'sso-poweruser-role': "arn:aws:iam::160071257600:role/AWSReservedSSO_PowerUserPlusRole_db88d920cf78a35f",

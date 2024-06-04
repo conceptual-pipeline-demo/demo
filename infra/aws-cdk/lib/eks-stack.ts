@@ -4,7 +4,14 @@ import {ContextResolver} from './environments';
 import {TagsBuilder} from './tags-builder';
 import {StrictStackProps} from "./strict-types";
 import {AlbControllerVersion, Cluster, KubernetesVersion} from "aws-cdk-lib/aws-eks";
-import {InstanceClass, InstanceSize, InstanceType, SubnetType, Vpc} from "aws-cdk-lib/aws-ec2";
+import {
+  InstanceClass,
+  InstanceSize,
+  InstanceType,
+  ISecurityGroup, Port,
+  SubnetType,
+  Vpc
+} from "aws-cdk-lib/aws-ec2";
 import {AccountRootPrincipal, Role} from "aws-cdk-lib/aws-iam";
 import {KubectlV29Layer} from "@aws-cdk/lambda-layer-kubectl-v29";
 
@@ -15,6 +22,7 @@ interface MasterRoleProps {
 interface EksStackProps extends StrictStackProps {
   readonly vpc: Vpc;
   readonly masterRoles: MasterRoleProps;
+  readonly dbSecurityGroup: ISecurityGroup;
 }
 
 export class EksStack extends Stack {
@@ -30,6 +38,7 @@ export class EksStack extends Stack {
     });
 
     const cluster = this.createCluster(context, props, kubeCliRole);
+    cluster.connections.allowTo(props.dbSecurityGroup, Port.tcp(5432));
     this.createCoreResources(cluster);
 
     TagsBuilder.of(this, props.env);

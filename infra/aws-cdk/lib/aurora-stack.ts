@@ -1,5 +1,13 @@
 import {Duration, Stack} from 'aws-cdk-lib';
-import {InstanceType, Peer, Port, SecurityGroup, SubnetType, Vpc} from 'aws-cdk-lib/aws-ec2';
+import {
+  InstanceType,
+  ISecurityGroup,
+  Peer,
+  Port,
+  SecurityGroup,
+  SubnetType,
+  Vpc
+} from 'aws-cdk-lib/aws-ec2';
 import {IKey} from 'aws-cdk-lib/aws-kms';
 import {
   AuroraPostgresEngineVersion,
@@ -26,6 +34,7 @@ interface AuroraStackProps extends StrictStackProps {
 export class AuroraStack extends Stack {
   private readonly PORT = 5432;
   private readonly _databaseCluster: DatabaseCluster;
+  private readonly _securityGroup: ISecurityGroup;
 
   constructor(scope: Construct, id: string, props: AuroraStackProps) {
     super(scope, id, props);
@@ -34,9 +43,9 @@ export class AuroraStack extends Stack {
     const instanceId = `${context.localPrefix}-instance`;
 
     const cmk = this.createKmsKey(context, props);
-    const securityGroup = this.createSecurityGroup(`${context.localPrefix}-db-sg`, props);
+    this._securityGroup = this.createSecurityGroup(`${context.localPrefix}-db-sg`, props);
 
-    this._databaseCluster = this.createDatabase(context, instanceId, props, cmk.key, securityGroup);
+    this._databaseCluster = this.createDatabase(context, instanceId, props, cmk.key, this._securityGroup);
 
     TagsBuilder.of(this, props.env);
   }
@@ -49,7 +58,7 @@ export class AuroraStack extends Stack {
                          instanceId: string,
                          props: AuroraStackProps,
                          cmk: IKey,
-                         securityGroup: SecurityGroup) {
+                         securityGroup: ISecurityGroup) {
     const engine = DatabaseClusterEngine.auroraPostgres({
       version: AuroraPostgresEngineVersion.VER_14_6,
     });
@@ -118,5 +127,9 @@ export class AuroraStack extends Stack {
     });
     TagsBuilder.addNameTagTo(parameterGroup, name);
     return parameterGroup;
+  }
+
+  get securityGroup(): ISecurityGroup {
+    return this._securityGroup;
   }
 }

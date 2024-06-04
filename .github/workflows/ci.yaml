@@ -74,6 +74,7 @@ jobs:
   deploy-dev:
     name: Deploy to dev
     runs-on: ubuntu-latest
+    environment: dev
     needs:
       - build_artifacts
     steps:

@@ -137,7 +137,7 @@ jobs:
           namespace: dev
 
   deploy_uat:
-    name: Deploy to dev
+    name: Deploy to uat
     runs-on: ubuntu-latest
     environment: uat
     needs:
@@ -157,7 +157,7 @@ jobs:
           db-url: ${{vars.SPRING_DATASOURCE_URL}}
 
   deploy_prod:
-    name: Deploy to dev
+    name: Deploy to prod
     runs-on: ubuntu-latest
     environment: prod
     needs:

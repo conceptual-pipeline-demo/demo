@@ -14,14 +14,14 @@ inputs:
     description: 'aws role ARN'
     required: false
     default: arn:aws:iam::160071257600:role/conceptual-pipeline-deployment
-  namespace:
-    description: 'k8s namespace'
-    required: false
-    default: dev
   cluster:
     description: 'k8s cluster'
     required: false
     default: conceptual-pipeline
+  namespace:
+    description: 'k8s namespace'
+    required: true
+    default: dev
   image-repo:
     description: 'image repository'
     required: true
@@ -42,13 +42,16 @@ runs:
   using: "composite"
   steps:
     - name: Configure AWS Creds
-      uses: aws-actions/configure-aws-credentials@v3
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ inputs.aws-role-arn }}
-        role-session-name: deploy-${{ github.run_id }}
+        role-session-name: infra-${{ github.run_id }}
         aws-region: ${{ inputs.aws-region }}
+    - name: Log in to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
 
-    - name: update eks kubeconfig
+    - name: Update eks kubeconfig
       run: aws eks update-kubeconfig --name ${{ inputs.cluster }} --region ${{ inputs.aws-region }}
       shell: bash
 

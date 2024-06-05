@@ -14,6 +14,6 @@ class ActuatorApiTest {
                 .then()
                 .statusCode(200)
                 .assertThat()
-                .body("status", Matchers.equalTo("UP"));
+                .body("status", Matchers.equalTo("something"));
     }
 }

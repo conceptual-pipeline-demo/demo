@@ -104,3 +104,4 @@ jobs:
           image-tag: ${{ steps.get_image_tag.outputs.image_tag }}
           db-username: ${{secrets.SPRING_DATASOURCE_USERNAME}}
           db-password: ${{secrets.SPRING_DATASOURCE_PASSWORD}}
+          db-url: ${{vars.SPRING_DATASOURCE_URL}}

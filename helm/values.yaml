@@ -12,6 +12,7 @@ image:
 
 # db configuration
 db:
+  url: ""
   username: ""
   password: ""
 

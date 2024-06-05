@@ -7,6 +7,7 @@ on:
     paths:
       - 'src/**'
       - 'build.gradle'
+  workflow_dispatch:
 
 jobs:
   dependency_check:
@@ -25,9 +26,9 @@ jobs:
       - name: Cache NVD database
         uses: actions/cache@v4
         with:
-          - path: |
-              owasp
-            key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}
+          path: |
+            owasp
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}
       - name: Run the dependency check gradle task
         run: ./gradlew clean dependencyCheckAnalyze
         shell: bash

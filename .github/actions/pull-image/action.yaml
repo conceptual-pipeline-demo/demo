@@ -1,0 +1,33 @@
+name: 'Pull Image'
+description: 'Pull the latest image from ECR'
+inputs:
+  aws-role-arn:
+    description: 'aws role arn'
+    required: true
+  aws-region:
+    description: 'aws region'
+    required: true
+  aws-ecr-repo:
+    description: 'aws ecr repo'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - name: Configure AWS Creds
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ inputs.aws-role-arn }}
+        role-session-name: infra-${{ github.run_id }}
+        aws-region: ${{ inputs.aws-region }}
+    - name: Log in to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+    - name: Get Latest Image tag
+      id: get_image_tag
+      shell: bash
+      run: |
+        TAG=$(aws ecr describe-images --repository-name ${{inputs.aws-ecr-repo}} --region ${{ inputs.aws-region }} --query 'sort_by(imageDetails[?imageTags],& imagePushedAt)[-1].imageTags[0]' --output text)
+        echo "Latest image tag: $TAG"
+        echo "::set-output name=image_tag::$TAG"

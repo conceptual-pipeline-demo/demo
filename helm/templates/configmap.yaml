@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-config
+  name: {{ include "demo.fullname" . }}-config
 data:
   SPRING_DATASOURCE_URL: {{ .Values.db.url }}
   SPRING_DATASOURCE_USERNAME: {{ .Values.db.username }}

@@ -38,7 +38,13 @@ kubectl describe pod demo-c454d9965-vvt88 -n dev
 kubectl logs demo-c454d9965-vvt88 -n dev
 kubectl exec --stdin --tty podName -- /bin/bash
 ```
-6. Nice to have: Simplify Kubernetes command
+6. install helm in case you want to use helm directoly in command line
+```angular2html
+brew install helm
+```
+you can verify by running `helm help`
+you can find all the release/upgrade history by running `helm history demo --namespace dev`
+7. Nice to have: Simplify Kubernetes command
    - create ~/aws-auth.sh with below content, change the first line path to your path
 ```angular2html
 $HOME/Documents/workspace/demo/infra/scripts/aws-login.sh(change this path to your path)

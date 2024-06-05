@@ -51,14 +51,15 @@ runs:
 
     - name: Run helm deploy
       run: |
-        echo "${{ inputs.db-username }}"
-        echo "${{ inputs.db-password }}"
+        echo "database_url: ${{ vars.SPRING_DATASOURCE_URL }}"
+        echo "database_username: ${{ secrets.SPRING_DATASOURCE_USERNAME }}"
         helm upgrade demo . \
             -f "./values-${{ inputs.namespace }}.yaml" \
             --set-string image.repository="${{ inputs.image-repo }}" \
             --set-string image.tag="${{ inputs.image-tag }}" \
-            --set-string db.username="${{ inputs.db-username }}" \
-            --set-string db.password="${{ inputs.db-password }}" \
+            --set-string SPRING_DATASOURCE_URL="${{ vars.SPRING_DATASOURCE_URL }}" \
+            --set-string SPRING_DATASOURCE_USERNAME="${{ secrets.SPRING_DATASOURCE_USERNAME }}" \
+            --set-string SPRING_DATASOURCE_PASSWORD="${{ secrets.SPRING_DATASOURCE_PASSWORD }}" \
             --debug \
             -i \
             --atomic \

@@ -7,6 +7,6 @@ create table if not exists client_info
     phone      varchar(13),
     address    varchar(100),
     created_at timestamp(6) not null default CURRENT_TIMESTAMP,
-    updated_at timestamp(6) not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+    updated_at timestamp(6) not null default CURRENT_TIMESTAMP,
     primary key (id)
 );

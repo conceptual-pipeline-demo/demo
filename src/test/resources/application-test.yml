@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:tc:postgresql:12.12:///
+    url: jdbc:tc:postgresql:latest:///
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
     show-sql: true

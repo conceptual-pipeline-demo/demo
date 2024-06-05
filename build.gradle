@@ -81,10 +81,13 @@ dependencyCheck {
     outputDirectory = "${buildDir}/reports/dependency-check"
     scanConfigurations = ['runtimeClasspath', 'testRuntimeClasspath']
     failBuildOnCVSS = 0
-    nvd {
-        apiKey = System.getenv('NVD_API_KEY')
-        delay = 1000
+    if (System.getenv('NVD_API_KEY') != null) {
+        nvd {
+            apiKey = System.getenv('NVD_API_KEY')
+            delay = 10000
+        }
     }
+
     data {
         directory = "${rootDir}/owasp"
     }

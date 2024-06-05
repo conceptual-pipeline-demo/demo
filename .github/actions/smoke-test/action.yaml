@@ -33,13 +33,13 @@ runs:
         role-session-name: deploy-${{ github.run_id }}
         aws-region: ${{ inputs.aws-region }}
 
-    - name: update eks kubeconfig
+    - name: Update eks kubeconfig
       run: aws eks update-kubeconfig --name ${{ inputs.cluster }} --region ${{ inputs.aws-region }}
       shell: bash
-    - name: set eks namespace
+    - name: Set eks namespace
       run: kubectl config set-context --current --namespace=${{ inputs.namespace }}
       shell: bash
-    - name: forward demo port to host 9090
+    - name: Forward demo port to host 9090
       run: kubectl port-forward service/demo 9090:80 &
       shell: bash
 
@@ -51,3 +51,9 @@ runs:
     - name: Run smoke test for demo service
       run: ./gradlew smokeTest
       shell: bash
+
+    - name: Upload report
+      uses: actions/upload-artifact@v4
+      with:
+        name: smoke test report
+        path: build/reports/tests/smokeTest/index.html

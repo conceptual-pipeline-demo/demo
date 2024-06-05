@@ -110,7 +110,6 @@ jobs:
       - build_artifacts
       - vulnerability_scan
     steps:
-      - uses: actions/checkout@v4
       - name: pull latest image
         uses: ./.github/actions/pull-image
         with:

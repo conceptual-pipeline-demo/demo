@@ -18,20 +18,14 @@ inputs:
     description: 'k8s namespace'
     required: true
     default: dev
+  working-dir:
+    description: 'Path to the gradle project'
+    required: true
+
 
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-    - name: Setup JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'adopt'
-        java-version: '17'
-        cache: 'gradle'
-        cache-dependency-path: |
-          **/*.gradle*
-          **/gradle-wrapper.properties
     - name: Configure AWS Creds
       uses: aws-actions/configure-aws-credentials@v3
       with:

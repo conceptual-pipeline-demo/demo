@@ -144,8 +144,19 @@ jobs:
     needs:
       - deploy_dev
     steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+          cache: 'gradle'
+          cache-dependency-path: |
+            **/*.gradle*
+            **/gradle-wrapper.properties
       - name: smoke test in dev
         uses: ./.github/actions/smoke-test
         with:
+          working-dir: ./
           namespace: dev
 

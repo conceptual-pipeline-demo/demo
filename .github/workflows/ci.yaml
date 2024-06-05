@@ -113,7 +113,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: pull latest image
         uses: ./.github/actions/pull-image
-        id: get_image_tag
         with:
           aws-role-arn: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}

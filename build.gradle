@@ -81,6 +81,13 @@ dependencyCheck {
     outputDirectory = "${buildDir}/reports/dependency-check"
     scanConfigurations = ['runtimeClasspath', 'testRuntimeClasspath']
     failBuildOnCVSS = 0
+    nvd {
+        apiKey = System.getenv('NVD_API_KEY')
+        delay = 1000
+    }
+    data {
+        directory = "${rootDir}/owasp"
+    }
 }
 
 // spotbugs vulnerability check

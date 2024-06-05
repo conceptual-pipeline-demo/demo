@@ -111,7 +111,7 @@ jobs:
       - vulnerability_scan
     steps:
       - uses: actions/checkout@v4
-      - name: helm deploy
+      - name: Helm deploy
         uses: ./.github/actions/helm-deploy
         with:
           namespace: dev
@@ -144,7 +144,7 @@ jobs:
       - smoke_test_in_dev
     steps:
       - uses: actions/checkout@v4
-      - name: helm deploy
+      - name: Helm deploy
         uses: ./.github/actions/helm-deploy
         with:
           namespace: uat
@@ -164,7 +164,7 @@ jobs:
       - deploy_uat
     steps:
       - uses: actions/checkout@v4
-      - name: helm deploy
+      - name: Helm deploy
         uses: ./.github/actions/helm-deploy
         with:
           namespace: prod

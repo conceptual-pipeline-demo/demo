@@ -35,28 +35,35 @@ runs:
         cache-dependency-path: |
           **/*.gradle*
           **/gradle-wrapper.properties
+
     - name: Configure AWS Creds
       uses: aws-actions/configure-aws-credentials@v3
       with:
         role-to-assume: ${{ inputs.aws-role-arn }}
         role-session-name: deploy-${{ github.run_id }}
         aws-region: ${{ inputs.aws-region }}
+
     - name: Update eks kubeconfig
       run: aws eks update-kubeconfig --name ${{ inputs.cluster }} --region ${{ inputs.aws-region }}
       shell: bash
+
     - name: Set eks namespace
       run: kubectl config set-context --current --namespace=${{ inputs.namespace }}
       shell: bash
+
     - name: Forward demo port to host 9090
       run: kubectl port-forward service/demo 9090:80 &
       shell: bash
+
     - name: Grant execute permission to gradle wrapper
       run: |
         chmod +x gradlew
       shell: bash
+
     - name: Run smoke test for demo service
       run: ./gradlew smokeTest
       shell: bash
+
     - name: Upload report
       uses: actions/upload-artifact@v4
       with:

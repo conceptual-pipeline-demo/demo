@@ -136,3 +136,43 @@ jobs:
           working-dir: ./
           namespace: dev
 
+  deploy_uat:
+    name: Deploy to dev
+    runs-on: ubuntu-latest
+    environment: uat
+    needs:
+      - smoke_test_in_dev
+    steps:
+      - uses: actions/checkout@v4
+      - name: helm deploy
+        uses: ./.github/actions/helm-deploy
+        with:
+          namespace: uat
+          aws-role-arn: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          image-repo: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}
+          image-tag: ${{ github.sha }}
+          db-username: ${{secrets.SPRING_DATASOURCE_USERNAME}}
+          db-password: ${{secrets.SPRING_DATASOURCE_PASSWORD}}
+          db-url: ${{vars.SPRING_DATASOURCE_URL}}
+
+  deploy_prod:
+    name: Deploy to dev
+    runs-on: ubuntu-latest
+    environment: prod
+    needs:
+      - deploy_uat
+    steps:
+      - uses: actions/checkout@v4
+      - name: helm deploy
+        uses: ./.github/actions/helm-deploy
+        with:
+          namespace: prod
+          aws-role-arn: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          image-repo: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{env.AWS_ECR_REPO}}
+          image-tag: ${{ github.sha }}
+          db-username: ${{secrets.SPRING_DATASOURCE_USERNAME}}
+          db-password: ${{secrets.SPRING_DATASOURCE_PASSWORD}}
+          db-url: ${{vars.SPRING_DATASOURCE_URL}}
+

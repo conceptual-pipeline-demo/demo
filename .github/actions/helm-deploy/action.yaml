@@ -58,7 +58,7 @@ runs:
             -f "./values-${{ inputs.namespace }}.yaml" \
             --set-string image.repository="${{ inputs.image-repo }}" \
             --set-string image.tag="${{ inputs.image-tag }}" \
-            --set-string db.url="${{ inputs.url }}" \
+            --set-string db.url="${{ inputs.db-url }}" \
             --set-string db.username="${{ inputs.db-username }}" \
             --set-string db.password="${{ inputs.db-password }}" \
             --debug \

@@ -110,12 +110,7 @@ jobs:
       - build_artifacts
       - vulnerability_scan
     steps:
-      - name: pull latest image
-        uses: ./.github/actions/pull-image
-        with:
-          aws-role-arn: ${{ env.AWS_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
-          aws-ecr-repo: ${{env.AWS_ECR_REPO}}
+      - uses: ./.github/actions/deploy/common-steps.yaml
       - name: helm deploy
         uses: ./.github/actions/helm-deploy
         with:

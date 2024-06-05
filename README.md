@@ -31,7 +31,7 @@ git config --local core.hooksPath config/git-hooks
 [TECH][Name] feat: commit description
 ```
 ### CI CD
-We are using github actions as our pipeline, we pushed the docker image to AWS ECR and deploy the service
+We are using  github actions as our pipeline, we pushed the docker image to AWS ECR and deploy the service
 to AWS EKS, regarding how to get AWS access and how to set up AWS CLI, please refer to `infra/aws-cli-setup.MD`
 
 

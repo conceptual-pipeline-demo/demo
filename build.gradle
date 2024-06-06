@@ -58,6 +58,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:spring-mock-mvc'
     testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.apache.commons:commons-compress:1.26.0'
     smokeTestImplementation 'io.rest-assured:rest-assured:5.4.0'
     smokeTestImplementation 'org.hamcrest:hamcrest:2.2'
     smokeTestImplementation 'org.hamcrest:hamcrest-all:1.3'

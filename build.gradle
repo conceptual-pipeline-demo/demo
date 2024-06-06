@@ -28,30 +28,6 @@ ext {
     set('testContainersVersion', "1.19.8")
 }
 
-def smokeTest = sourceSets.create('smokeTest')
-
-configurations[smokeTest.implementationConfigurationName].extendsFrom(configurations.testImplementation)
-configurations[smokeTest.runtimeOnlyConfigurationName].extendsFrom(configurations.testRuntimeOnly)
-
-
-tasks.register('smokeTest', Test) {
-    doFirst {
-        if (!project.hasProperty('smokeTestBaseUrl')) {
-            throw new GradleException("'smokeTestBaseUrl' property is required!")
-        }
-
-        println("--------------set smoke test base url:" + project.getProperty("smokeTestBaseUrl"))
-        environment 'smokeTestBaseUrl', project.getProperty("smokeTestBaseUrl")
-    }
-    description = 'Runs smoke tests.'
-    group = 'verification'
-    useJUnitPlatform()
-
-    testClassesDirs = smokeTest.output.classesDirs
-    classpath = configurations[smokeTest.runtimeClasspathConfigurationName] + smokeTest.output
-
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -67,9 +43,6 @@ dependencies {
     testImplementation 'io.rest-assured:spring-mock-mvc'
     testImplementation 'org.testcontainers:postgresql'
     testImplementation 'org.apache.commons:commons-compress:1.26.0'
-    smokeTestImplementation 'io.rest-assured:rest-assured:5.4.0'
-    smokeTestImplementation 'org.hamcrest:hamcrest:2.2'
-    smokeTestImplementation 'org.hamcrest:hamcrest-all:1.3'
 }
 
 dependencyManagement {

@@ -23,16 +23,6 @@ permissions:
   security-events: write
 
 jobs:
-  smoke_test_in_dev_cypress:
-    name: Smoke test in dev cypress
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Smoke test in dev
-        uses: ./.github/actions/cypress-smoke-test
-        with:
-          namespace: dev
-          working-dir: smoke-test
 
   vulnerability_scan:
     name: Run OWASP dependency vulnerability scan
@@ -164,8 +154,8 @@ jobs:
       - name: Smoke test in dev
         uses: ./.github/actions/smoke-test
         with:
-          working-dir: ./
           namespace: dev
+          working-dir: smoke-test
 
   deploy_uat:
     name: Deploy to uat

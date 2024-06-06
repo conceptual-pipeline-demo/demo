@@ -35,9 +35,5 @@ We are using  github actions as our pipeline, we pushed the docker image to AWS 
 to AWS EKS, regarding how to get AWS access and how to set up AWS CLI, please refer to `infra/aws-cli-setup.MD`
 
 ### Smoke Test
-```angular2html
-./gradlew smokeTest -PsmokeTestBaseUrl=http://localhost:9090
-```
-change the smokeTestBaseUrl to yours
-
+We are using cypress to do the smoke test, for details, please refer to `smoke-test/README.md`
 

@@ -48,5 +48,4 @@ runs:
     - name: Cypress run smoke test
       uses: cypress-io/github-action@v6
       with:
-        config:
-          baseUrl: http://localhost:9090
+        config: baseUrl=http://localhost:9090

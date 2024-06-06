@@ -20,6 +20,7 @@ env:
 permissions:
   id-token: write # Allow connections to AWS
   contents: read # Allow access to repository contents
+  security-events: write
 
 jobs:
   vulnerability_scan:

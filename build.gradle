@@ -35,6 +35,14 @@ configurations[smokeTest.runtimeOnlyConfigurationName].extendsFrom(configuration
 
 
 tasks.register('smokeTest', Test) {
+    doFirst {
+        if (!project.hasProperty('smokeTestBaseUrl')) {
+            throw new GradleException("'smokeTestBaseUrl' property is required!")
+        }
+
+        println("--------------set smoke test base url:" + project.getProperty("smokeTestBaseUrl"))
+        environment 'smokeTestBaseUrl', project.getProperty("smokeTestBaseUrl")
+    }
     description = 'Runs smoke tests.'
     group = 'verification'
     useJUnitPlatform()

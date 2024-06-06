@@ -61,7 +61,7 @@ runs:
       shell: bash
 
     - name: Run smoke test for demo service
-      run: ./gradlew smokeTest
+      run: ./gradlew smokeTest -PsmokeTestBaseUrl=http://localhost:9090
       shell: bash
 
     - name: Upload report

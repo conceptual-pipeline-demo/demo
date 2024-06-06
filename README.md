@@ -34,4 +34,10 @@ git config --local core.hooksPath config/git-hooks
 We are using  github actions as our pipeline, we pushed the docker image to AWS ECR and deploy the service
 to AWS EKS, regarding how to get AWS access and how to set up AWS CLI, please refer to `infra/aws-cli-setup.MD`
 
+### Smoke Test
+```angular2html
+./gradlew smokeTest -PsmokeTestBaseUrl=http://localhost:9090
+```
+change the smokeTestBaseUrl to yours
+
 

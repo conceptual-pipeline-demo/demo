@@ -40,6 +40,9 @@ runs:
     - name: Forward demo port to host 9090
       run: kubectl port-forward service/demo 9090:80 &
       shell: bash
+    - name: go to smoke-test folder
+      run: cd smoke-test
+      shell: bash
     - name: pwd
       run: pwd
       shell: bash

@@ -26,18 +26,13 @@ jobs:
   smoke_test_in_dev_cypress:
     name: Smoke test in dev cypress
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./smoke-test
     steps:
       - uses: actions/checkout@v4
-      - name: pwd
-        run: pwd
-        shell: bash
       - name: Smoke test in dev
         uses: ./.github/actions/cypress-smoke-test
         with:
           namespace: dev
+          working-dir: smoke-test
 
   vulnerability_scan:
     name: Run OWASP dependency vulnerability scan

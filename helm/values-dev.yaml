@@ -1,1 +1,3 @@
 replicaCount: 1
+configMapData:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://conceptual-pipeline-cluster.cluster-csighhtz2tqe.ap-southeast-2.rds.amazonaws.com:5432/demo?currentSchema=dev"

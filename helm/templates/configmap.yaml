@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: {{ include "demo.fullname" . }}-config
 data:
-  SPRING_DATASOURCE_URL: {{ .Values.db.url }}
-  SPRING_DATASOURCE_USERNAME: {{ .Values.db.username }}
-  SPRING_DATASOURCE_PASSWORD: {{ .Values.db.password }}
+  {{- range $key, $val := .Values.configMapData }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}

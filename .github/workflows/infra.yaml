@@ -34,7 +34,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Configure AWS Creds
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
           role-session-name: infra-${{ github.run_id }}

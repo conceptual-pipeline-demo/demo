@@ -37,7 +37,7 @@ runs:
           **/gradle-wrapper.properties
 
     - name: Configure AWS Creds
-      uses: aws-actions/configure-aws-credentials@v3
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ inputs.aws-role-arn }}
         role-session-name: deploy-${{ github.run_id }}

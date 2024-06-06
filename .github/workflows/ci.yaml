@@ -53,6 +53,18 @@ jobs:
          name: dependency check report
          path: build/reports/dependency-check/dependency-check-report.html
 
+  security_scan:
+    name: Run Snyk security scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/gradle-jdk17@master
+        env:
+          SNYK_TOKEN:
+            ${{ secrets.SNYK_API_TOKEN }}
+
+
   build_artifacts:
     name: Build artifacts
     runs-on: ubuntu-latest
@@ -109,6 +121,7 @@ jobs:
     needs:
       - build_artifacts
       - vulnerability_scan
+      - security_scan
     steps:
       - uses: actions/checkout@v4
       - name: Helm deploy

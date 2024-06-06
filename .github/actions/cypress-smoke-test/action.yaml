@@ -46,7 +46,7 @@ runs:
       shell: bash
 
     - name: Cypress run smoke test
+      working-directory: ${{ inputs.working-dir }}
       uses: cypress-io/github-action@v6
       with:
         config: baseUrl=http://localhost:9090
-      working-directory: ${{ inputs.working-dir }}

@@ -1,0 +1,17 @@
+// Create client
+GET {{baseUrl}}/clients/9ff87665d24b49bf83d152bedc719a44
+###
+
+
+// Get Client
+POST {{baseUrl}}/clients
+Content-Type: application/json
+
+{
+  "name" : "test-name1",
+  "gender": "Female",
+  "email": "test-name@gmail.com",
+  "phone": "123456789",
+  "address": "address1",
+  "age": 18
+}

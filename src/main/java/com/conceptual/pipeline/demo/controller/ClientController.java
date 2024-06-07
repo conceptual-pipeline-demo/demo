@@ -16,12 +16,12 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @GetMapping("/client/{id}")
+    @GetMapping("/clients/{id}")
     public ClientInfoResponse getClientInfoById(@PathVariable String id) {
         return clientService.getClientInfoById(id);
     }
 
-    @PostMapping("/client")
+    @PostMapping("/clients")
     public String createClient(@RequestBody CreateClientRequest createClientRequest) {
         return clientService.createClient(createClientRequest);
     }

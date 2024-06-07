@@ -26,6 +26,8 @@ git config --local core.hooksPath config/git-hooks
 - start from Intellij: if the postgres container is not running, then you may have to start up 
   the container manually first, please refer to `docker/Docker-Colima-Setup.MD`
 - access swagger ui: http://localhost:8080/swagger-ui/index.html
+- you can test api easily using `http-client` under `http-client` folder,
+  which require you to install the `http-client` plugin in intellij 
 4. Commit message format
 ```text
 [TECH][Name] feat: commit description

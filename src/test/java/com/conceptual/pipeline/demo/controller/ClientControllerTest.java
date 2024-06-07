@@ -43,7 +43,7 @@ class ClientControllerTest {
 
         // when
         // then
-        mockMvc.perform((get("/client/{id}", "1")))
+        mockMvc.perform((get("/clients/{id}", "1")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("name"));
@@ -64,7 +64,7 @@ class ClientControllerTest {
 
         // when
         // then
-        mockMvc.perform(post("/client")
+        mockMvc.perform(post("/clients")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());

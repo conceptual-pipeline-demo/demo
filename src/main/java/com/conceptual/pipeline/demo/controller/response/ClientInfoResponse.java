@@ -1,18 +1,14 @@
 package com.conceptual.pipeline.demo.controller.response;
 
+import com.conceptual.pipeline.demo.controller.common.ClientPublicAttribute;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
-public class ClientInfoResponse {
+@SuperBuilder
+public class ClientInfoResponse extends ClientPublicAttribute {
     private String id;
-    private String name;
-    private String gender;
-    private String email;
-    private String phone;
-    private String address;
-    private Integer age;
 }

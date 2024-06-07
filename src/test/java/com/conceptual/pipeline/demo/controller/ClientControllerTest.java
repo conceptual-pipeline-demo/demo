@@ -39,6 +39,7 @@ class ClientControllerTest {
         clientEntity.setEmail("123@gmail.com");
         clientEntity.setAddress("somewhere");
         clientEntity.setAge(20);
+        clientEntity.setBirthday("1990-01-01");
         clientRepository.save(clientEntity);
 
         // when
@@ -59,6 +60,7 @@ class ClientControllerTest {
                 .email("123@gmail.com")
                 .address("somewhere")
                 .age(20)
+                .birthday("1990-01-01")
                 .build();
         ObjectMapper objectMapper = new ObjectMapper();
 

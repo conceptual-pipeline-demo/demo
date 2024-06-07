@@ -33,4 +33,7 @@ public class ClientEntity {
 
     @Column(name = "age")
     private Integer age;
+
+    @Column(name = "birthday")
+    private String birthday;
 }

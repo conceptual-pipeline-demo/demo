@@ -1,0 +1,1 @@
+ALTER table client_info add column age INTEGER;

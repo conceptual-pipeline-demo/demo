@@ -2,13 +2,14 @@ package com.conceptual.pipeline.demo.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import com.conceptual.pipeline.demo.controller.request.CreateClientRequest;
 import com.conceptual.pipeline.demo.controller.response.ClientInfoResponse;
 import com.conceptual.pipeline.demo.repository.ClientRepository;
 import com.conceptual.pipeline.demo.repository.entity.ClientEntity;
 import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,13 +27,7 @@ class ClientServiceTest {
     void should_return_client_info_when_given_id_is_exist() {
         // given
         String id = "existId";
-        ClientEntity clientEntity = new ClientEntity();
-        clientEntity.setId(id);
-        clientEntity.setName("name");
-        clientEntity.setGender("male");
-        clientEntity.setPhone("123456");
-        clientEntity.setEmail("123@gmail.com");
-        clientEntity.setAddress("somewhere");
+        ClientEntity clientEntity = generateClientEntity(id);
         given(clientRepository.findById(id)).willReturn(Optional.of(clientEntity));
 
         // when
@@ -53,5 +48,38 @@ class ClientServiceTest {
 
         // then
         assertNull(clientInfo);
+    }
+
+    @Test
+    void should_return_id_when_create_client_successfully() {
+        // given
+        CreateClientRequest request = CreateClientRequest.builder()
+                .name("name")
+                .gender("male")
+                .phone("123456")
+                .email("123@gmail.com")
+                .address("somewhere")
+                .age(20)
+                .build();
+        ClientEntity clientEntity = generateClientEntity("id");
+        given(clientRepository.save(any())).willReturn(clientEntity);
+
+        // when
+        String clientId = clientService.createClient(request);
+
+        // then
+        assertNotNull(clientId);
+    }
+
+    private ClientEntity generateClientEntity(String id) {
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setId(id);
+        clientEntity.setName("name");
+        clientEntity.setGender("male");
+        clientEntity.setPhone("123456");
+        clientEntity.setEmail("123@gmail.com");
+        clientEntity.setAddress("somewhere");
+        clientEntity.setAge(20);
+        return clientEntity;
     }
 }

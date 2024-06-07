@@ -1,9 +1,11 @@
 package com.conceptual.pipeline.demo.service;
 
+import com.conceptual.pipeline.demo.controller.request.CreateClientRequest;
 import com.conceptual.pipeline.demo.controller.response.ClientInfoResponse;
 import com.conceptual.pipeline.demo.repository.ClientRepository;
 import com.conceptual.pipeline.demo.repository.entity.ClientEntity;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,5 +30,18 @@ public class ClientService {
                     .build();
         }
         return null;
+    }
+
+    public String createClient(CreateClientRequest createClientRequest) {
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setId(UUID.randomUUID().toString().replace("-", ""));
+        clientEntity.setName(createClientRequest.getName());
+        clientEntity.setGender(createClientRequest.getGender());
+        clientEntity.setEmail(createClientRequest.getEmail());
+        clientEntity.setPhone(createClientRequest.getPhone());
+        clientEntity.setAddress(createClientRequest.getAddress());
+        clientEntity.setAge(createClientRequest.getAge());
+        ClientEntity saved = clientRepository.save(clientEntity);
+        return saved.getId();
     }
 }

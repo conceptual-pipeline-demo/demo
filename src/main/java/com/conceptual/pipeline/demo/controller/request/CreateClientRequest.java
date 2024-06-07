@@ -1,4 +1,4 @@
-package com.conceptual.pipeline.demo.controller.response;
+package com.conceptual.pipeline.demo.controller.request;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ClientInfoResponse {
-    private String id;
+public class CreateClientRequest {
     private String name;
     private String gender;
     private String email;

@@ -143,6 +143,7 @@ jobs:
           db-username: ${{secrets.SPRING_DATASOURCE_USERNAME}}
           db-password: ${{secrets.SPRING_DATASOURCE_PASSWORD}}
           db-url: ${{vars.SPRING_DATASOURCE_URL}}
+          db-schema: ${{vars.SPRING_FLYWAY_DEFAULT_SCHEMA}}
 
   smoke_test_in_dev:
     name: Smoke test in dev
@@ -176,6 +177,7 @@ jobs:
           db-username: ${{secrets.SPRING_DATASOURCE_USERNAME}}
           db-password: ${{secrets.SPRING_DATASOURCE_PASSWORD}}
           db-url: ${{vars.SPRING_DATASOURCE_URL}}
+          db-schema: ${{vars.SPRING_FLYWAY_DEFAULT_SCHEMA}}
 
   deploy_prod:
     name: Deploy to prod
@@ -197,4 +199,3 @@ jobs:
           db-password: ${{secrets.SPRING_DATASOURCE_PASSWORD}}
           db-url: ${{vars.SPRING_DATASOURCE_URL}}
           db-schema: ${{vars.SPRING_FLYWAY_DEFAULT_SCHEMA}}
-

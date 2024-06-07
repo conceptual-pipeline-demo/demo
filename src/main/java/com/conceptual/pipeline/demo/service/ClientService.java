@@ -27,6 +27,7 @@ public class ClientService {
                     .email(client.getEmail())
                     .phone(client.getPhone())
                     .address(client.getAddress())
+                    .age(client.getAge())
                     .build();
         }
         return null;

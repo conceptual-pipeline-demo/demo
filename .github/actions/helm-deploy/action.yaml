@@ -37,6 +37,9 @@ inputs:
   db-url:
     description: 'db url'
     required: true
+  db-schema:
+    description: 'db schema'
+    required: true
 
 runs:
   using: "composite"
@@ -64,6 +67,7 @@ runs:
             --set-string configMapData.SPRING_DATASOURCE_URL="${{ inputs.db-url }}" \
             --set-string configMapData.SPRING_DATASOURCE_USERNAME="${{ inputs.db-username }}" \
             --set-string configMapData.SPRING_DATASOURCE_PASSWORD="${{ inputs.db-password }}" \
+            --set-string configMapData.SPRING_FLYWAY_DEFAULT_SCHEMA="${{ inputs.db-schema }}" \
             --debug \
             -i \
             --atomic \

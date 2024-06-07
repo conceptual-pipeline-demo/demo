@@ -11,7 +11,7 @@ spring:
     enabled: true
     locations: classpath:db
     baseline-on-migrate: true
-    schemas: dev,uat,prod
+    default-schema: dev
 server:
   port: 80
 

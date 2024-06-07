@@ -196,4 +196,5 @@ jobs:
           db-username: ${{secrets.SPRING_DATASOURCE_USERNAME}}
           db-password: ${{secrets.SPRING_DATASOURCE_PASSWORD}}
           db-url: ${{vars.SPRING_DATASOURCE_URL}}
+          db-schema: ${{vars.SPRING_FLYWAY_DEFAULT_SCHEMA}}
 

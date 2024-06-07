@@ -52,6 +52,11 @@ spec:
                 configMapKeyRef:
                   name: {{ include "demo.fullname" . }}-config
                   key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_FLYWAY_DEFAULT_SCHEMA
+              valueFrom:
+                configMapKeyRef:
+                  name: { { include "demo.fullname" . } }-config
+                  key: SPRING_FLYWAY_DEFAULT_SCHEMA
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

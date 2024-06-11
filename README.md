@@ -32,6 +32,17 @@ git config --local core.hooksPath config/git-hooks
 ```text
 [TECH][Name] feat: commit description
 ```
+
+### After weekly TW beach account clean up
+
+1. run the environment bootstrap
+
+```shell
+./infra/bootstrap/bootstrap-account.sh
+```
+
+1. trigger infra pipeline
+
 ### CI CD
 We are using  github actions as our pipeline, we pushed the docker image to AWS ECR and deploy the service
 to AWS EKS, regarding how to get AWS access and how to set up AWS CLI, please refer to `infra/aws-cli-setup.MD`

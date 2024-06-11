@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+CDK_DIR="$(cd "${SCRIPT_DIR}"/../aws-cdk >/dev/null 2>&1 && pwd)"
 
 STACK_NAME="ConceptualPipelineDemoAccountBootstrap"
 
@@ -12,3 +13,7 @@ aws cloudformation deploy \
     --template-file "${SCRIPT_DIR}/pipeline.yaml" \
     --stack-name "${STACK_NAME}" \
     --capabilities CAPABILITY_NAMED_IAM
+
+pushd "${CDK_DIR}"
+cdk bootstrap
+popd

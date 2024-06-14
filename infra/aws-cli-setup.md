@@ -47,6 +47,7 @@ you can find all the release/upgrade history by running `helm history demo --nam
 7. Nice to have: Simplify Kubernetes command
    - create ~/aws-auth.sh with below content, change the first line path to your path
 ```angular2html
+export AWS_PROFILE=tw-beach
 $HOME/Documents/workspace/demo/infra/scripts/aws-login.sh(change this path to your path)
 aws eks update-kubeconfig --name conceptual-pipeline --region ap-southeast-2
 setNs(){

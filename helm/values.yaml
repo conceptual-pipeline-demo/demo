@@ -107,3 +107,5 @@ tolerations: []
 affinity: {}
 
 configMapData:
+
+secretStringData:

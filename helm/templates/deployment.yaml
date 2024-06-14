@@ -36,27 +36,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: SPRING_DATASOURCE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "demo.fullname" . }}-config
-                  key: SPRING_DATASOURCE_URL
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "demo.fullname" . }}-config
-                  key: SPRING_DATASOURCE_USERNAME
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "demo.fullname" . }}-config
-                  key: SPRING_DATASOURCE_PASSWORD
-            - name: SPRING_FLYWAY_DEFAULT_SCHEMA
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "demo.fullname" . }}-config
-                  key: SPRING_FLYWAY_DEFAULT_SCHEMA
+          envFrom:
+            - configMapRef:
+                name: {{ include "demo.fullname" . }}-config
+            - secretRef:
+            name: {{ include "demo.fullname" . }}-secret
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

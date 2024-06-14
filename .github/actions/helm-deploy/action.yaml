@@ -65,8 +65,8 @@ runs:
             --set-string image.repository="${{ inputs.image-repo }}" \
             --set-string image.tag="${{ inputs.image-tag }}" \
             --set-string configMapData.SPRING_DATASOURCE_URL="${{ inputs.db-url }}" \
-            --set-string configMapData.SPRING_DATASOURCE_USERNAME="${{ inputs.db-username }}" \
-            --set-string configMapData.SPRING_DATASOURCE_PASSWORD="${{ inputs.db-password }}" \
+            --set-string secretStringData.SPRING_DATASOURCE_USERNAME="${{ inputs.db-username }}" \
+            --set-string secretStringData.SPRING_DATASOURCE_PASSWORD="${{ inputs.db-password }}" \
             --set-string configMapData.SPRING_FLYWAY_DEFAULT_SCHEMA="${{ inputs.db-schema }}" \
             --debug \
             -i \

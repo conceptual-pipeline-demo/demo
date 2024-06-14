@@ -40,7 +40,7 @@ spec:
             - configMapRef:
                 name: {{ include "demo.fullname" . }}-config
             - secretRef:
-            name: {{ include "demo.fullname" . }}-secret
+                name: {{ include "demo.fullname" . }}-secret
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

@@ -3,5 +3,7 @@ fileignoreconfig:
   checksum: 1bc26675af2c40619c58565b7407923d039a7c1945364072fd79fe4e1f816031
 - filename: infra/bootstrap/pipeline.yaml
   checksum: 27e0bbdd66c1e34bebe2757c93491fc25cdf4a44621157b6100fcdb59c5a9dd2
+- filename: src/main/resources/db/V20240607141952__add_birthday_column_to_client_info.sql
+  checksum: b060c47cd5a85da3f008b0931ecc33e14c66c9c8edc733e863806043b0bf05d0
 threshold: low
 version: "1.0"

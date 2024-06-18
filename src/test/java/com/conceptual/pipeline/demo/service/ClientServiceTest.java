@@ -60,6 +60,7 @@ class ClientServiceTest {
                 .email("123@gmail.com")
                 .address("somewhere")
                 .age(20)
+                .birthday("1990-01-01")
                 .build();
         ClientEntity clientEntity = generateClientEntity("id");
         given(clientRepository.save(any())).willReturn(clientEntity);
@@ -80,6 +81,7 @@ class ClientServiceTest {
         clientEntity.setEmail("123@gmail.com");
         clientEntity.setAddress("somewhere");
         clientEntity.setAge(20);
+        clientEntity.setBirthday("1990-01-01");
         return clientEntity;
     }
 }

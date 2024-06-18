@@ -28,6 +28,7 @@ public class ClientService {
                     .phone(client.getPhone())
                     .address(client.getAddress())
                     .age(client.getAge())
+                    .birthday(client.getBirthday())
                     .build();
         }
         return null;
@@ -42,6 +43,7 @@ public class ClientService {
         clientEntity.setPhone(createClientRequest.getPhone());
         clientEntity.setAddress(createClientRequest.getAddress());
         clientEntity.setAge(createClientRequest.getAge());
+        clientEntity.setBirthday(createClientRequest.getBirthday());
         ClientEntity saved = clientRepository.save(clientEntity);
         return saved.getId();
     }

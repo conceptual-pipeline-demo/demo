@@ -1,12 +1,47 @@
 #!/bin/sh
 # main code style check
 ./gradlew checkstyleMain
+if [ $? -ne 0 ]; then
+    echo "|-------------------------------------------------------------|"
+    echo "| Pre-commit hook: Test failed. Aborting commit  |"
+    echo "|-------------------------------------------------------------|"
+    exit 1
+else
+    echo "|----------------------------------------------------------------------|"
+    echo "| The test was successful, now trying to commit your changes. |"
+    echo "|----------------------------------------------------------------------|"
+    exit 0
+fi
 # test code style check
 ./gradlew checkstyleTest
+if [ $? -ne 0 ]; then
+    echo "|-------------------------------------------------------------|"
+    echo "| Pre-commit hook: Test failed. Aborting commit  |"
+    echo "|-------------------------------------------------------------|"
+    exit 1
+else
+    echo "|----------------------------------------------------------------------|"
+    echo "| The test was successful, now trying to commit your changes. |"
+    echo "|----------------------------------------------------------------------|"
+    exit 0
+fi
 # vulnerability check
 ./gradlew spotbugsMain
 
 
+if [ $? -ne 0 ]; then
+    echo "|-------------------------------------------------------------|"
+    echo "| Pre-commit hook: Test failed. Aborting commit  |"
+    echo "|-------------------------------------------------------------|"
+    exit 1
+else
+    echo "|----------------------------------------------------------------------|"
+    echo "| The test was successful, now trying to commit your changes. |"
+    echo "|----------------------------------------------------------------------|"
+    exit 0
+fi
+
+talisman -g pre-commit "$@"
 if [ $? -ne 0 ]; then
     echo "|-------------------------------------------------------------|"
     echo "| Pre-commit hook: Test failed. Aborting commit  |"

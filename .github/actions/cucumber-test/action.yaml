@@ -45,6 +45,16 @@ runs:
       run: kubectl port-forward service/demo 9090:80 &
       shell: bash
 
+    - name: Setup JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'adopt'
+        java-version: '17'
+        cache: 'gradle'
+        cache-dependency-path: |
+          **/*.gradle*
+          **/gradle-wrapper.properties
+
     - name: Grant execute permission to gradle wrapper
       run: |
         chmod +x gradlew

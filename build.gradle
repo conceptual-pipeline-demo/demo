@@ -7,6 +7,7 @@ plugins {
     id 'jacoco'
     id 'com.github.spotbugs' version '6.0.10'
     id 'checkstyle'
+    id 'jvm-test-suite'
 }
 
 group = 'com.conceptual.pipeline'
@@ -55,6 +56,49 @@ dependencyManagement {
 tasks.named('test') {
     useJUnitPlatform()
     finalizedBy(jacocoTestReport)
+}
+
+testing {
+    suites {
+        cucumberTest(JvmTestSuite) {
+            testType = TestSuiteType.FUNCTIONAL_TEST
+
+            useJUnitJupiter()
+            dependencies {
+                implementation project()
+//                implementation 'io.cucumber:cucumber-java:7.18.0'
+//                implementation 'io.cucumber:cucumber-junit:7.18.0'
+                implementation 'io.rest-assured:rest-assured:5.4.0'
+                implementation platform("org.junit:junit-bom:5.10.2")
+                implementation platform("io.cucumber:cucumber-bom:7.18.0")
+
+                implementation "io.cucumber:cucumber-java"
+                implementation "io.cucumber:cucumber-junit-platform-engine"
+                implementation "org.junit.platform:junit-platform-suite"
+                implementation "org.junit.jupiter:junit-jupiter"
+            }
+            sources {
+                java {
+                    srcDirs = ['src/cucumber-test/java']
+                }
+                resources {
+                    srcDirs = ['src/cucumber-test/resources']
+                }
+            }
+
+            targets {
+                all {
+                    testTask.configure {
+                        systemProperty 'cucumber.junit-platform.naming-strategy', 'long'
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('cucumberTest') {
+    useJUnitPlatform()
 }
 
 jacocoTestReport {

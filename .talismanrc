@@ -5,5 +5,5 @@ fileignoreconfig:
   checksum: 27e0bbdd66c1e34bebe2757c93491fc25cdf4a44621157b6100fcdb59c5a9dd2
 - filename: src/main/resources/db/V20240607141952__add_birthday_column_to_client_info.sql
   checksum: b060c47cd5a85da3f008b0931ecc33e14c66c9c8edc733e863806043b0bf05d0
-threshold: low
+threshold: medium
 version: "1.0"

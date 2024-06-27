@@ -1,0 +1,57 @@
+name: 'Run helm deploy'
+description: 'Deploy helm chart to kubernetes cluster'
+
+inputs:
+  aws-region:
+    description: 'aws region'
+    required: false
+    default: ap-southeast-2
+  aws-role-arn:
+    description: 'aws role ARN'
+    required: false
+    default: arn:aws:iam::160071257600:role/conceptual-pipeline-deployment
+  cluster:
+    description: 'k8s cluster'
+    required: false
+    default: conceptual-pipeline
+  namespace:
+    description: 'k8s namespace'
+    required: true
+    default: dev
+  working-dir:
+    description: 'working dir'
+    required: true
+    default: ./
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configure AWS Creds
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ inputs.aws-role-arn }}
+        role-session-name: deploy-${{ github.run_id }}
+        aws-region: ${{ inputs.aws-region }}
+
+    - name: Update eks kubeconfig
+      run: aws eks update-kubeconfig --name ${{ inputs.cluster }} --region ${{ inputs.aws-region }}
+      shell: bash
+
+    - name: Set eks namespace
+      run: kubectl config set-context --current --namespace=${{ inputs.namespace }}
+      shell: bash
+
+    - name: Forward demo port to host 9090
+      run: kubectl port-forward service/demo 9090:80 &
+      shell: bash
+
+    - name: Grant execute permission to gradle wrapper
+      run: |
+        chmod +x gradlew
+      shell: bash
+      working-directory: ${{ inputs.working-dir }}
+
+    - name: Run Gradle build task, including unit test, integration test, and lint check
+      run: ./gradlew clean cucumberTest -Dtest.base.url=http://localhost:9090
+      shell: bash
+      working-directory: ${{ inputs.working-dir }}

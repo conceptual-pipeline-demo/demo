@@ -1,27 +1,26 @@
 package com.conceptual.pipeline.demo;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
 
+import com.google.inject.Inject;
+import io.cucumber.guice.ScenarioScoped;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
+@ScenarioScoped
 public class StepDefinitions {
 
     private final RequestSpecification requestSpecification;
     private int id;
     private Response response;
 
-    public StepDefinitions() {
-        this.requestSpecification = new RequestSpecBuilder()
-                .setBaseUri("http://localhost")
-                .setPort(80)
-                .build();
+    @Inject
+    public StepDefinitions(RequestSpecification requestSpecification) {
+        this.requestSpecification = requestSpecification;
     }
 
     @Given("client id is {int}")

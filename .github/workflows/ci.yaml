@@ -158,12 +158,26 @@ jobs:
           namespace: dev
           working-dir: smoke-test
 
+  cucumber_test_in_dev:
+    name: Cucumber test in dev
+    runs-on: ubuntu-latest
+    needs:
+      - deploy_dev
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke test in dev
+        uses: ./.github/actions/cucumber-test
+        with:
+          namespace: dev
+          working-dir: ./
+
   deploy_uat:
     name: Deploy to uat
     runs-on: ubuntu-latest
     environment: uat
     needs:
       - smoke_test_in_dev
+      - cucumber_test_in_dev
     steps:
       - uses: actions/checkout@v4
       - name: Helm deploy
